@@ -1,6 +1,6 @@
 const {select, input, checkbox} = require('@inquirer/prompts')
 
-let mensagem = "Bem vindo(a) ao In.orbit!!"
+let mensagem = "    Bem vindo(a) ao In.orbit!!"
 
 let meta = {
     value: "Tomar 2L de água por dia",
@@ -89,19 +89,19 @@ const metasAbertas = async () => {
 
 const removerMetas = async () => {
     const metasDesmarcadas = metas.map((meta) => {
-            return {value: meta.value, checked: false}
+        return {value: meta.value, checked: false}
     })
-
-    const itensARemover = await checkbox({
-        message: "Selecione um item para remover",
-        choices: [...metasDesmarcadas],
-        instructions: false
-    })
-
-    if (itensARemover.length == 0) {
+    
+    if (metasDesmarcadas.length == 0) {
         mensagem = "   Não há itens para remover!"
         return
     }
+
+    const itensARemover = await checkbox({
+        message: "Selecione um ou mais itens para remover",
+        choices: [...metasDesmarcadas],
+        instructions: false
+    })
 
     itensARemover.forEach((item) => {
         metas = metas.filter((meta) => {
@@ -109,7 +109,7 @@ const removerMetas = async () => {
         })
     })
 
-    cmensagem = "   Metas removidas com sucesso!"
+    mensagem = "   Metas removidas com sucesso!"
 }
 
 const mostrarMensagem = () => {
