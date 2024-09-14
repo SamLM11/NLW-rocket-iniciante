@@ -99,17 +99,35 @@ const removerMetas = async () => {
 
     const itensARemover = await checkbox({
         message: "Selecione um ou mais itens para remover",
-        choices: [...metasDesmarcadas],
+        choices: [...metasDesmarcadas, "Remover Todas"],
         instructions: false
     })
 
+    //Validando nenhuma seleção marcada
+    if (itensARemover.length == 0) {
+        mensagem = "   Não há itens para remover!"
+        return
+    }
+
+    //Nova funcionalidade de remover todas :*
+    let removerTodas = false
     itensARemover.forEach((item) => {
-        metas = metas.filter((meta) => {
-            return meta.value != item
-        })
+        removerTodas = item == "Remover Todas"
     })
 
-    mensagem = "   Metas removidas com sucesso!"
+    if(removerTodas) {
+        metas = []
+        mensagem = "   Todas as Metas removidas com sucesso!"
+
+    } else {
+
+        itensARemover.forEach((item) => {
+            metas = metas.filter((meta) => {
+                return meta.value != item
+            })
+        })
+        mensagem = "   Metas removidas com sucesso!"
+    }
 }
 
 const mostrarMensagem = () => {
